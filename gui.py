@@ -18,9 +18,20 @@ class GUI(tk.Frame):
         title.pack()
         # create a quit button and add to window
         tk.Button(self.window, text="Quit", command=self.window.destroy).pack()
+        # create open file button
+        tk.Button(self.window, text="Open file", command=lambda: self.open_file()).pack()
         # wait for user input
         self.mainloop()
 
+    def open_file(self):
+        self.file = askopenfile(mode='r+', filetypes=[('FASTA Files', '*.fasta'), ('FASTA files', '*.fa')])
+        # check user has selected a file
+        try:
+            self.content = SeqIO.read(self.file, 'fasta')
+        # tell user no file was opened if they press cancel
+        except AttributeError:
+            print('You pressed cancel, no file was opened')
+            # note if a file has already been opened this will stay open
 
 g = GUI()
 g
