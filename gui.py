@@ -14,6 +14,8 @@ class GUI(tk.Frame):
         super().__init__(master)
         self.window = master
         self.text_out = tk.StringVar()
+        # set size of GUI
+        self.window.geometry("400x200")
         # create a title
         title = tk.Label(self.window, text="Bioinformatics app")
         # add title to window
