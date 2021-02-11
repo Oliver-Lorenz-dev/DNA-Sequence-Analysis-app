@@ -6,6 +6,7 @@ from tkinter import messagebox
 from tkinter.filedialog import askopenfile
 from Bio import SeqIO
 from Bio.SeqUtils import GC
+from Bio.SeqUtils import nt_search
 
 
 class GUI(tk.Frame):
@@ -13,7 +14,10 @@ class GUI(tk.Frame):
         # create a window
         super().__init__(master)
         self.window = master
+        # set string variable
         self.text_out = tk.StringVar()
+        # create string variable for sequence search
+        self.search = tk.StringVar()
         # set size of GUI
         self.window.geometry("400x200")
         # create a title
@@ -28,6 +32,10 @@ class GUI(tk.Frame):
         tk.Button(self.window, text="GC content", command=lambda: self.gc()).pack()
         # create a base frequency button
         tk.Button(self.window, text="Base frequency", command=lambda: self.base_frequency()).pack()
+        # create entry
+        tk.Entry(self.window, textvariable=self.search).pack()
+        # create a base frequency button
+        tk.Button(self.window, text="Sequence search", command=lambda: self.seq_search()).pack()
         # create output label
         out_label = tk.Label(self.window, textvariable=self.text_out)
         # add out_label to window
@@ -74,6 +82,40 @@ class GUI(tk.Frame):
         # tell user to open a file
         except AttributeError:
             self.text_out.set('Please open a FASTA file before using other functions of this application')
+
+    def seq_search(self):
+        """function which allows user to search for a nucleotide sequence of their choice"""
+        # check user has opened a file
+        try:
+            # check for search input
+            if len(self.search.get()) > 0:
+                # reset text_out
+                self.text_out.set('')
+                search_input = self.search.get()
+                # avoid case sensitivity
+                search_input = search_input.upper()
+            else:
+                self.text_out.set('No search input detected')
+            # print to stdout because output can be very large for this function
+            # check if search input is correct
+            try:
+                if len(self.search.get()) > 0:
+                    # check for matches
+                    if len(nt_search(str(self.content.seq), str(search_input))) > 1:
+                        self.text_out.set('')
+                        print(nt_search(str(self.content.seq), str(search_input)))
+                    else:
+                        self.text_out.set('No matches found')
+                else:
+                    pass
+            # tell user search input is incorrect
+            except KeyError:
+                self.text_out.set('Please search for the bases A,C,G and T only')
+
+        # tell user to open a file
+        except AttributeError:
+            self.text_out.set('Please open a FASTA file before using other functions of this application')
+
 
 g = GUI()
 g
