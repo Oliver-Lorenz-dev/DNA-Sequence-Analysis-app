@@ -39,7 +39,9 @@ class GUI(tk.Frame):
         # create a base frequency button
         tk.Button(self.window, text="Sequence search", command=lambda: self.seq_search()).place(x=30, y=92)
         # create a transcribe button
-        tk.Button(self.window, text="Transcribe sequence", command=lambda: self.transcribe()).pack()
+        tk.Button(self.window, text="Transcribe DNA sequence", command=lambda: self.transcribe()).pack()
+        # create a transcribe button
+        tk.Button(self.window, text="Translate DNA sequence", command=lambda: self.translate()).pack()
         # create output label
         out_label = tk.Label(self.window, textvariable=self.text_out)
         # add out_label to window
@@ -139,8 +141,30 @@ class GUI(tk.Frame):
             if len(mRNA) < 51:
                 self.text_out.set('mRNA sequence: ' + mRNA)
             else:
-                self.text_out.set('Your mRNA sequence is longer than 50 bases, the output is in the CLI.')
+                self.text_out.set('Your mRNA sequence is longer than 50 bases, output directed to stdout.')
                 print(mRNA)
+        # tell user to open a file
+        except AttributeError:
+            self.text_out.set('Please open a FASTA file before using other functions of this application')
+
+    def translate(self):
+        """function which transcribes DNA to amino acid sequence"""
+        # check user has opened a file
+        try:
+            # sequence length must be a multiple of 3 for translation
+            if len(self.content.seq) % 3 == 0:
+                protein = self.content.seq.translate()
+            elif (len(self.content.seq)+1) % 3 == 0:
+                edited_seq_1 = self.content.seq + 'N'
+                protein = edited_seq_1.translate()
+            else:
+                edited_seq_2 = self.content.seq + 'NN'
+                protein = edited_seq_2.translate()
+            if len(protein) < 51:
+                self.text_out.set('Protein sequence: ' + protein)
+            else:
+                self.text_out.set('Your protein sequence is longer than 50 bases, the output is in the CLI.')
+                print(protein)
         # tell user to open a file
         except AttributeError:
             self.text_out.set('Please open a FASTA file before using other functions of this application')
