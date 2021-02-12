@@ -29,6 +29,8 @@ class GUI(tk.Frame):
         # create open file button
         tk.Button(self.window, text="Open file", command=lambda: self.open_file()).pack()
         # create a GC button
+        tk.Button(self.window, text="Sequence length", command=lambda: self.get_length()).pack()
+        # create a GC button
         tk.Button(self.window, text="GC content", command=lambda: self.gc()).pack()
         # create a base frequency button
         tk.Button(self.window, text="Base frequency", command=lambda: self.base_frequency()).pack()
@@ -117,6 +119,15 @@ class GUI(tk.Frame):
         except AttributeError:
             self.text_out.set('Please open a FASTA file before using other functions of this application')
 
+    def get_length(self):
+        """function which returns the length of a sequence"""
+        # check user has opened a file
+        try:
+            seq_len = len(self.content.seq)
+            self.text_out.set('Sequence length: ' + str(seq_len))
+        # tell user to open a file
+        except AttributeError:
+            self.text_out.set('Please open a FASTA file before using other functions of this application')
 
 g = GUI()
 g
