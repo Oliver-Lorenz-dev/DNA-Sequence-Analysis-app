@@ -19,7 +19,7 @@ class GUI(tk.Frame):
         # create string variable for sequence search
         self.search = tk.StringVar()
         # set size of GUI
-        self.window.geometry("500x300")
+        self.window.geometry("700x300")
         # create a title
         title = tk.Label(self.window, text="Bioinformatics App")
         # add title to window
@@ -46,6 +46,8 @@ class GUI(tk.Frame):
         tk.Button(self.window, text="Complement DNA sequence", command=lambda: self.complement()).pack()
         # create a reverse complement button
         tk.Button(self.window, text="Reverse Complement DNA sequence", command=lambda: self.rev_complement()).pack()
+        # create a get record button
+        tk.Button(self.window, text="Get sequence record", command=lambda: self.get_record()).pack()
         # create output label
         out_label = tk.Label(self.window, textvariable=self.text_out)
         # add out_label to window
@@ -143,10 +145,10 @@ class GUI(tk.Frame):
         try:
             mRNA = self.content.seq.transcribe()
             # check if sequence is too long to be printed in the GUI
-            if len(mRNA) < 51:
+            if len(mRNA) < 201:
                 self.text_out.set('mRNA sequence: ' + mRNA)
             else:
-                self.text_out.set('Your mRNA sequence is longer than 50 bases, output directed to stdout.')
+                self.text_out.set('Your mRNA sequence is longer than 200 bases, output directed to stdout.')
                 print(mRNA)
         # tell user to open a file
         except AttributeError:
@@ -166,10 +168,10 @@ class GUI(tk.Frame):
                 edited_seq_2 = self.content.seq + 'NN'
                 protein = edited_seq_2.translate()
             # check if sequence is too long to be printed in the GUI
-            if len(protein) < 51:
+            if len(protein) < 201:
                 self.text_out.set('Protein sequence: ' + protein)
             else:
-                self.text_out.set('Your protein sequence is longer than 50 amino acids, output directed to stdout.')
+                self.text_out.set('Your protein sequence is longer than 200 amino acids, output directed to stdout.')
                 print(protein)
         # tell user to open a file
         except AttributeError:
@@ -181,10 +183,10 @@ class GUI(tk.Frame):
         try:
             comp = self.content.seq.complement()
             # check if sequence is too long to be printed in the GUI
-            if len(comp) < 51:
+            if len(comp) < 201:
                 self.text_out.set('Complement sequence: ' + comp)
             else:
-                self.text_out.set('Your complement sequence is longer than 50 bases, output directed to stdout.')
+                self.text_out.set('Your complement sequence is longer than 200 bases, output directed to stdout.')
                 print(comp)
         # tell user to open a file
         except AttributeError:
@@ -196,13 +198,34 @@ class GUI(tk.Frame):
         try:
             comp = self.content.seq.reverse_complement()
             # check if sequence is too long to be printed in the GUI
-            if len(comp) < 51:
+            if len(comp) < 201:
                 self.text_out.set('Reverse Complement sequence: ' + comp)
             else:
-                self.text_out.set('Your reverse complement sequence is longer than 50 bases, output directed to stdout.')
+                self.text_out.set('Your reverse complement sequence is longer than 200 bases, output directed to stdout.')
                 print(comp)
         # tell user to open a file
         except AttributeError:
             self.text_out.set('Please open a FASTA file before using other functions of this application')
+
+    def get_record(self):
+        """function which gets the record of the FASTA file"""
+        # check user has opened a file
+        try:
+            # check file has a record
+            if self.content.description:
+                record = str(self.content.description)
+                # check if record is too long to be printed in the GUI
+                if len(record) < 201:
+                    self.text_out.set(record)
+                else:
+                    self.text_out.set('Record is longer than 200 characters, output directed to stdout')
+                    print(record)
+            else:
+                self.text_out.set('No record avaliable')
+        # tell user to open a file
+        except AttributeError:
+            self.text_out.set('Please open a FASTA file before using other functions of this application')
+
+
 g = GUI()
 g
