@@ -19,7 +19,7 @@ class GUI(tk.Frame):
         # create string variable for sequence search
         self.search = tk.StringVar()
         # set size of GUI
-        self.window.geometry("500x250")
+        self.window.geometry("500x300")
         # create a title
         title = tk.Label(self.window, text="Bioinformatics App")
         # add title to window
@@ -28,7 +28,7 @@ class GUI(tk.Frame):
         tk.Button(self.window, text="Quit", command=self.window.destroy).pack()
         # create open file button
         tk.Button(self.window, text="Open file", command=lambda: self.open_file()).pack()
-        # create a GC button
+        # create a sequence length button
         tk.Button(self.window, text="Sequence length", command=lambda: self.get_length()).pack()
         # create a GC button
         tk.Button(self.window, text="GC content", command=lambda: self.gc()).pack()
@@ -36,14 +36,16 @@ class GUI(tk.Frame):
         tk.Button(self.window, text="Base frequency", command=lambda: self.base_frequency()).pack()
         # create entry
         tk.Entry(self.window, textvariable=self.search).place(x=20, y=70)
-        # create a base frequency button
+        # create a sequence search button
         tk.Button(self.window, text="Sequence search", command=lambda: self.seq_search()).place(x=30, y=92)
         # create a transcribe button
         tk.Button(self.window, text="Transcribe DNA sequence", command=lambda: self.transcribe()).pack()
-        # create a transcribe button
+        # create a translate button
         tk.Button(self.window, text="Translate DNA sequence", command=lambda: self.translate()).pack()
-        # create a transcribe button
+        # create a complement button
         tk.Button(self.window, text="Complement DNA sequence", command=lambda: self.complement()).pack()
+        # create a reverse complement button
+        tk.Button(self.window, text="Reverse Complement DNA sequence", command=lambda: self.rev_complement()).pack()
         # create output label
         out_label = tk.Label(self.window, textvariable=self.text_out)
         # add out_label to window
@@ -183,6 +185,21 @@ class GUI(tk.Frame):
                 self.text_out.set('Complement sequence: ' + comp)
             else:
                 self.text_out.set('Your complement sequence is longer than 50 bases, output directed to stdout.')
+                print(comp)
+        # tell user to open a file
+        except AttributeError:
+            self.text_out.set('Please open a FASTA file before using other functions of this application')
+
+    def rev_complement(self):
+        """function which complements DNA sequence"""
+        # check user has opened a file
+        try:
+            comp = self.content.seq.reverse_complement()
+            # check if sequence is too long to be printed in the GUI
+            if len(comp) < 51:
+                self.text_out.set('Reverse Complement sequence: ' + comp)
+            else:
+                self.text_out.set('Your reverse complement sequence is longer than 50 bases, output directed to stdout.')
                 print(comp)
         # tell user to open a file
         except AttributeError:
