@@ -42,6 +42,8 @@ class GUI(tk.Frame):
         tk.Button(self.window, text="Transcribe DNA sequence", command=lambda: self.transcribe()).pack()
         # create a transcribe button
         tk.Button(self.window, text="Translate DNA sequence", command=lambda: self.translate()).pack()
+        # create a transcribe button
+        tk.Button(self.window, text="Complement DNA sequence", command=lambda: self.complement()).pack()
         # create output label
         out_label = tk.Label(self.window, textvariable=self.text_out)
         # add out_label to window
@@ -138,6 +140,7 @@ class GUI(tk.Frame):
         # check user has opened a file
         try:
             mRNA = self.content.seq.transcribe()
+            # check if sequence is too long to be printed in the GUI
             if len(mRNA) < 51:
                 self.text_out.set('mRNA sequence: ' + mRNA)
             else:
@@ -160,15 +163,29 @@ class GUI(tk.Frame):
             else:
                 edited_seq_2 = self.content.seq + 'NN'
                 protein = edited_seq_2.translate()
+            # check if sequence is too long to be printed in the GUI
             if len(protein) < 51:
                 self.text_out.set('Protein sequence: ' + protein)
             else:
-                self.text_out.set('Your protein sequence is longer than 50 bases, the output is in the CLI.')
+                self.text_out.set('Your protein sequence is longer than 50 amino acids, output directed to stdout.')
                 print(protein)
         # tell user to open a file
         except AttributeError:
             self.text_out.set('Please open a FASTA file before using other functions of this application')
 
-
+    def complement(self):
+        """function which complements DNA sequence"""
+        # check user has opened a file
+        try:
+            comp = self.content.seq.complement()
+            # check if sequence is too long to be printed in the GUI
+            if len(comp) < 51:
+                self.text_out.set('Complement sequence: ' + comp)
+            else:
+                self.text_out.set('Your complement sequence is longer than 50 bases, output directed to stdout.')
+                print(comp)
+        # tell user to open a file
+        except AttributeError:
+            self.text_out.set('Please open a FASTA file before using other functions of this application')
 g = GUI()
 g
