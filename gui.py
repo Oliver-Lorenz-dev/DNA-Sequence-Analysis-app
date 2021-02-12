@@ -19,7 +19,7 @@ class GUI(tk.Frame):
         # create string variable for sequence search
         self.search = tk.StringVar()
         # set size of GUI
-        self.window.geometry("500x200")
+        self.window.geometry("500x250")
         # create a title
         title = tk.Label(self.window, text="Bioinformatics App")
         # add title to window
@@ -38,6 +38,8 @@ class GUI(tk.Frame):
         tk.Entry(self.window, textvariable=self.search).place(x=20, y=70)
         # create a base frequency button
         tk.Button(self.window, text="Sequence search", command=lambda: self.seq_search()).place(x=30, y=92)
+        # create a transcribe button
+        tk.Button(self.window, text="Transcribe sequence", command=lambda: self.transcribe()).pack()
         # create output label
         out_label = tk.Label(self.window, textvariable=self.text_out)
         # add out_label to window
@@ -128,6 +130,21 @@ class GUI(tk.Frame):
         # tell user to open a file
         except AttributeError:
             self.text_out.set('Please open a FASTA file before using other functions of this application')
+
+    def transcribe(self):
+        """function which transcribes DNA to mRNA"""
+        # check user has opened a file
+        try:
+            mRNA = self.content.seq.transcribe()
+            if len(mRNA) < 51:
+                self.text_out.set('mRNA sequence: ' + mRNA)
+            else:
+                self.text_out.set('Your mRNA sequence is longer than 50 bases, the output is in the CLI.')
+                print(mRNA)
+        # tell user to open a file
+        except AttributeError:
+            self.text_out.set('Please open a FASTA file before using other functions of this application')
+
 
 g = GUI()
 g
