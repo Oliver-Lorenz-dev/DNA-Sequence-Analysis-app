@@ -19,9 +19,9 @@ class GUI(tk.Frame):
         # create string variable for sequence search
         self.search = tk.StringVar()
         # set size of GUI
-        self.window.geometry("400x200")
+        self.window.geometry("500x200")
         # create a title
-        title = tk.Label(self.window, text="Bioinformatics app")
+        title = tk.Label(self.window, text="Bioinformatics App")
         # add title to window
         title.pack()
         # create a quit button and add to window
@@ -33,9 +33,9 @@ class GUI(tk.Frame):
         # create a base frequency button
         tk.Button(self.window, text="Base frequency", command=lambda: self.base_frequency()).pack()
         # create entry
-        tk.Entry(self.window, textvariable=self.search).pack()
+        tk.Entry(self.window, textvariable=self.search).place(x=20, y=70)
         # create a base frequency button
-        tk.Button(self.window, text="Sequence search", command=lambda: self.seq_search()).pack()
+        tk.Button(self.window, text="Sequence search", command=lambda: self.seq_search()).place(x=30, y=92)
         # create output label
         out_label = tk.Label(self.window, textvariable=self.text_out)
         # add out_label to window
@@ -102,10 +102,11 @@ class GUI(tk.Frame):
                 if len(self.search.get()) > 0:
                     # check for matches
                     if len(nt_search(str(self.content.seq), str(search_input))) > 1:
-                        self.text_out.set('')
-                        print(nt_search(str(self.content.seq), str(search_input)))
+                        match_length = len(nt_search(str(self.content.seq), str(search_input)))
+                        matches = match_length - 1
+                        self.text_out.set('Sequence: ' + search_input + ': ' + str(matches) + ' matches')
                     else:
-                        self.text_out.set('No matches found')
+                        self.text_out.set('Sequence: ' + search_input + ' No matches found')
                 else:
                     pass
             # tell user search input is incorrect
