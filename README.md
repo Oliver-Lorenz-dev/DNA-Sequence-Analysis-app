@@ -56,3 +56,45 @@ you searched for is in your DNA sequence (from your FASTA file). Your search mus
 A, C, G and T. 
 
 Quit: Press the `Quit` button to exit the application.
+
+Use Case
+-------
+Open file "50.FASTA"
+Click Sequence length button. Output: Sequence length 50
+
+Click on GC content button. Output: 0.00%
+
+Click on Base frequency button. Output: A: 96.00% G: 0.00% T 4.00% N:0.00%
+
+Click on Transcribe DNA sequence button. Output is the corresponding mRNA sequence.
+
+Click on the Translate DNA sequence button. Output is the corresponding protein sequence.
+
+Click on the Protein sequence analysis button. Output: Sequence length: 17 Hydrophobic AAs: 1 
+Neutral AAs: 0 Hydrophilic AAs: 15.
+
+Click on the Complement DNA sequence button. Output is the complement of the DNA sequence.
+
+Click on the Reverse Complement DNA sequence button. Output is the reverse complement of the DNA sequence.
+
+Click on the Get sequence record button. Output: 
+">MN908947.3 Severe acute respiratory syndrome coronavirus 2 isolate Wuhan-Hu-1, complete genome"
+
+Input T in the input box above the Sequence search button and click the Sequence search button. 
+Output: Sequence T: 2 matches
+
+Github repository link
+----------------------
+https://nucode.ncl.ac.uk/scomp/student-portfolios/c0059478-portfolio/bioinformatics-app
+
+Further notes
+-------------
+I had wanted to direct the output of the transcribed, translated, complement and reverse complement sequences 
+to a text box (rather than to stdout). 
+However, when I ran the GUI on a larger sequence it kept crashing my PC, so I was not able to test this 
+feature properly and therefore decided not to implement it.
+
+
+
+
+
