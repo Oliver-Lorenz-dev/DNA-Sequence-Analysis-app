@@ -1,8 +1,4 @@
 import tkinter as tk
-from tkinter import StringVar
-import tkinter.ttk as ttk
-from tkinter import simpledialog
-from tkinter import messagebox
 from tkinter.filedialog import askopenfile
 from Bio import SeqIO
 from Bio.SeqUtils import GC
@@ -19,7 +15,7 @@ class GUI(tk.Frame):
         # create string variable for sequence search
         self.search = tk.StringVar()
         # set size of GUI
-        self.window.geometry("700x300")
+        self.window.geometry("700x350")
         # create a title
         title = tk.Label(self.window, text="Bioinformatics App")
         # add title to window
@@ -35,13 +31,15 @@ class GUI(tk.Frame):
         # create a base frequency button
         tk.Button(self.window, text="Base frequency", command=lambda: self.base_frequency()).pack()
         # create entry
-        tk.Entry(self.window, textvariable=self.search).place(x=20, y=70)
+        tk.Entry(self.window, textvariable=self.search).place(x=50, y=140)
         # create a sequence search button
-        tk.Button(self.window, text="Sequence search", command=lambda: self.seq_search()).place(x=30, y=92)
+        tk.Button(self.window, text="Sequence search", command=lambda: self.seq_search()).place(x=60, y=162)
         # create a transcribe button
         tk.Button(self.window, text="Transcribe DNA sequence", command=lambda: self.transcribe()).pack()
         # create a translate button
         tk.Button(self.window, text="Translate DNA sequence", command=lambda: self.translate()).pack()
+        # create a protein analysis button
+        tk.Button(self.window, text="Protein sequence analysis", command=lambda: self.protein_analysis()).pack()
         # create a complement button
         tk.Button(self.window, text="Complement DNA sequence", command=lambda: self.complement()).pack()
         # create a reverse complement button
@@ -222,6 +220,35 @@ class GUI(tk.Frame):
                     print(record)
             else:
                 self.text_out.set('No record avaliable')
+        # tell user to open a file
+        except AttributeError:
+            self.text_out.set('Please open a FASTA file before using other functions of this application')
+
+    def protein_analysis(self):
+        """function which generates a simple analysis report of the translated DNA sequence"""
+        # check user has opened a file
+        try:
+            # translate DNA sequence
+            if len(self.content.seq) % 3 == 0:
+                protein = self.content.seq.translate()
+            elif (len(self.content.seq) + 1) % 3 == 0:
+                edited_seq_1 = self.content.seq + 'N'
+                protein = edited_seq_1.translate()
+            else:
+                edited_seq_2 = self.content.seq + 'NN'
+                protein = edited_seq_2.translate()
+            # get length of sequence
+            protein_length = len(protein)
+            # count types of amino acids
+            hydrophobic = (protein.count('A') + protein.count('C') + protein.count('I')
+            + protein.count('L') + protein.count('M') + protein.count('F') + protein.count('W')
+            + protein.count('V'))
+            neutral = (protein.count('G') + protein.count('H') + protein.count('P')
+            + protein.count('S') + protein.count('T') + protein.count('Y'))
+            hydrophilic = (protein.count('R') + protein.count('N') + protein.count('D')
+            + protein.count('Q') + protein.count('E') + protein.count('K'))
+            self.text_out.set('Sequence length: ' + str(protein_length) + ' Hydrophobic AAs: ' + str(hydrophobic)
+                              + ' Neutral AAs: ' + str(neutral) + ' Hydrophilic AAs: ' + str(hydrophilic))
         # tell user to open a file
         except AttributeError:
             self.text_out.set('Please open a FASTA file before using other functions of this application')
