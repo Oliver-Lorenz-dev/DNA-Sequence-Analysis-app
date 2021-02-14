@@ -20,8 +20,6 @@ class GUI(tk.Frame):
         title = tk.Label(self.window, text="Bioinformatics App")
         # add title to window
         title.pack()
-        # create a quit button and add to window
-        tk.Button(self.window, text="Quit", command=self.window.destroy).pack()
         # create open file button
         tk.Button(self.window, text="Open file", command=lambda: self.open_file()).pack()
         # create a sequence length button
@@ -46,6 +44,8 @@ class GUI(tk.Frame):
         tk.Button(self.window, text="Reverse Complement DNA sequence", command=lambda: self.rev_complement()).pack()
         # create a get record button
         tk.Button(self.window, text="Get sequence record", command=lambda: self.get_record()).pack()
+        # create a quit button and add to window
+        tk.Button(self.window, text="Quit", command=self.window.destroy).pack()
         # create output label
         out_label = tk.Label(self.window, textvariable=self.text_out)
         # add out_label to window
@@ -254,5 +254,3 @@ class GUI(tk.Frame):
             self.text_out.set('Please open a FASTA file before using other functions of this application')
 
 
-g = GUI()
-g
