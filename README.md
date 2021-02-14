@@ -14,7 +14,8 @@ This application is designed to manipulate DNA sequences in the form of a FASTA 
 Options
 -------
 Open file: Click the `Open file` button to open the file browser and then click on the FASTA file you want to open. Note: you must open a file
-before using other functions of this application.
+before using other functions of this application. Note: if you have already opened a file, this file
+will stay open until another file is opened.
 
 Sequence length: Click on the `Sequence length` button to find out the length of your DNA sequence
 
