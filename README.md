@@ -9,7 +9,7 @@ Usage
 -----
 Type `python main.py` to run this application.
 
-This application is designed to work on DNA sequences in the form of a FASTA file.
+This application is designed to manipulate DNA sequences in the form of a FASTA file.
 
 Options
 -------
