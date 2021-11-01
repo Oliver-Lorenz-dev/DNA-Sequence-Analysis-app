@@ -17,7 +17,7 @@ class GUI(tk.Frame):
         # set size of GUI
         self.window.geometry("700x350")
         # create a title
-        title = tk.Label(self.window, text="Bioinformatics App")
+        title = tk.Label(self.window, text="FASTA File Analyser")
         # add title to window
         title.pack()
         # create open file button
